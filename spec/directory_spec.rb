@@ -1,5 +1,17 @@
 require File.dirname(__FILE__) + '/spec_helper'
 
+describe Groc::Directory, "attributes" do
+  include DirectoryHelper
+  
+  before(:each) do
+    @directory = new_directory_with_stubs
+  end
+  
+  it "should have a path" do
+    @directory.path.should_not be_nil
+  end
+end
+
 describe Groc::Directory, ".new" do
   include DirectoryHelper
   

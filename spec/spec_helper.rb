@@ -36,6 +36,7 @@ module DirectoryHelper
   end
   
   def directory_stubs!
+    File.stub!(:exists?).and_return(true)
     File.stub!(:file?).and_return(false)
   end
 end
