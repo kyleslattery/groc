@@ -1,12 +1,10 @@
 require File.dirname(__FILE__) + '/spec_helper'
 
 describe Groc::Page, "attributes" do
+  include PageHelper
+  
   before(:each) do
-    Dir.stub!(:[]).and_return(["/cool/path.md"])
-    File.stub!(:file?).and_return(true)
-    File.stub!(:read).and_return("content")
-    
-    @page = Groc::Page.new("/some/path")
+    @page = new_page_with_stubs
   end
   
   it "should not allow raw_body to be set" do
@@ -15,10 +13,10 @@ describe Groc::Page, "attributes" do
 end
 
 describe Groc::Page, ".new" do
+  include PageHelper
+  
   before(:each) do
-    Dir.stub!(:[]).and_return(["/cool/path.md"])
-    File.stub!(:file?).and_return(true)
-    File.stub!(:read).and_return("content")
+    page_stubs!
   end
   
   it "should require a path" do
@@ -43,15 +41,13 @@ describe Groc::Page, ".new" do
 end
 
 describe Groc::Page, "#body" do
+  include PageHelper
+  
   before(:each) do
-    Dir.stub!(:[]).and_return(["/cool/path.md"])
-    File.stub!(:file?).and_return(true)
-    File.stub!(:read).and_return("content")
-    
     @rdiscount_mock = mock(RDiscount, :to_html => "html")
     RDiscount.stub!(:new).and_return(@rdiscount_mock)
     
-    @page = Groc::Page.new("/some/path")
+    @page = new_page_with_stubs
   end
   
   it "should call RDiscount.new with content of file" do
