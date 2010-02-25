@@ -24,7 +24,6 @@ module PageHelper
   end
   
   def page_stubs!
-    Dir.stub!(:[]).and_return(["/cool/path.md"])
     File.stub!(:file?).and_return(true)
     File.stub!(:read).and_return("content")
   end
@@ -37,7 +36,6 @@ module DirectoryHelper
   end
   
   def directory_stubs!
-    Dir.stub!(:[]).and_return(["asdf"])
     File.stub!(:file?).and_return(false)
   end
 end

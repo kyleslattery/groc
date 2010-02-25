@@ -11,18 +11,13 @@ describe Groc::Directory, ".new" do
     lambda {Groc::Directory.new}.should raise_exception(ArgumentError)
   end
   
-  it "should Dir[] for the path" do
-    File.stub!(:dirname).and_return("lib")
-    Dir.should_receive(:[]).with("lib/../source/some/path").and_return(["asdf"])
-    Groc::Directory.new("/some/path")
-  end
-  
   it "should raise error if the path does not exist" do
-    Dir.stub!(:[]).and_return([])
+    File.stub!(:exists?).and_return(false)
     lambda {Groc::Directory.new("/some/path")}.should raise_exception(Groc::PathNotFound)
   end
   
-  it "should raise error if the path is a file" do
+  it "should raise error if the path exists but is a file" do
+    File.stub!(:exists?).and_return(true)
     File.stub!(:file?).and_return(true)
     lambda {Groc::Directory.new("/some/path")}.should raise_exception(Groc::PathNotFound)
   end

@@ -1,10 +1,9 @@
 module Groc
   class Directory
     def initialize(path)
-      glob = File.join(File.dirname(__FILE__), "..", "source/", path)
-      dir = Dir[glob].first
+      @path = File.join(File.dirname(__FILE__), "..", "source/", path)
 
-      raise Groc::PathNotFound if dir.nil? || File.file?(dir)
+      raise Groc::PathNotFound if !File.exists?(@path) || File.file?(@path)
     end
   end
 end
