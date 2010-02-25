@@ -1,5 +1,19 @@
 require File.dirname(__FILE__) + '/spec_helper'
 
+describe Groc::Page, "attributes" do
+  before(:each) do
+    Dir.stub!(:[]).and_return(["/cool/path.md"])
+    File.stub!(:file?).and_return(true)
+    File.stub!(:read).and_return("content")
+    
+    @page = Groc::Page.new("/some/path")
+  end
+  
+  it "should not allow raw_body to be set" do
+    lambda {@page.raw_body = "asdf"}.should raise_exception(NameError)
+  end
+end
+
 describe Groc::Page, ".new" do
   before(:each) do
     Dir.stub!(:[]).and_return(["/cool/path.md"])
@@ -11,8 +25,8 @@ describe Groc::Page, ".new" do
     lambda {Groc::Page.new}.should raise_exception(ArgumentError)
   end
   
-  it "should Dir[] for path/*.*" do
-    Dir.should_receive(:[]).with("/some/path/*.*")
+  it "should Dir[] for path/*.md" do
+    Dir.should_receive(:[]).with("/some/path/*.md")
     Groc::Page.new("/some/path/")
   end
   
@@ -47,5 +61,11 @@ describe Groc::Page, "#body" do
   
   it "should return value of RDiscount.new.to_html" do
     @page.body.should == "html"
+  end
+  
+  it "should cache result" do
+    @page.body
+    @rdiscount_mock.should_not_receive(:to_html)
+    @page.body
   end
 end

@@ -6,14 +6,14 @@ module Groc
     attr_reader :raw_body
     
     def initialize(path)
-      path = Dir[File.join(path, "/*.*")].first
+      path = Dir[File.join(path, "/*.md")].first
       raise PathNotFound unless File.file?(path)
       
       @raw_body = File.read(path)
     end
     
     def body
-      RDiscount.new(self.raw_body).to_html
+      @body ||= RDiscount.new(self.raw_body).to_html
     end
   end
   
