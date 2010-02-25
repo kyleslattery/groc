@@ -1,6 +1,9 @@
 require 'rubygems'
 require 'sinatra'
-require 'lib/page'
+
+Dir[File.join(File.dirname(__FILE__), "lib", "*.rb")].each do |path|
+  require path
+end
 
 get '*' do |path|
   begin
