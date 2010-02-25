@@ -17,6 +17,4 @@ module Groc
       @body ||= RDiscount.new(self.raw_body).to_html
     end
   end
-  
-  class PathNotFound < Exception; end
 end
