@@ -7,7 +7,7 @@ require 'spec'
 require 'spec/autorun'
 require 'spec/interop/test'
 
-Dir["../lib/*.rb"].each do |path|
+Dir[File.join(File.dirname(__FILE__), "..", "/lib/*.rb")].each do |path|
   require path
 end
 
