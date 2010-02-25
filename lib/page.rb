@@ -8,7 +8,7 @@ module Groc
     def initialize(path)
       glob = File.join(File.dirname(__FILE__), "..", "/source/", path.gsub(/\/$/, '') + ".md")
       path = Dir[glob].first
-      raise PathNotFound unless File.file?(path)
+      raise PathNotFound if path.nil? || !File.file?(path)
       
       @raw_body = File.read(path)
     end

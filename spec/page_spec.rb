@@ -30,8 +30,13 @@ describe Groc::Page, ".new" do
     Groc::Page.new("/some/path/")
   end
   
-  it "should raise error if no file exists at that path" do
+  it "should raise error if the path is not a file" do
     File.stub!(:file?).and_return(false)
+    lambda {Groc::Page.new("/some/path")}.should raise_exception(Groc::PathNotFound)
+  end
+  
+  it "should raise error if the path does not exist" do
+    Dir.stub!(:[]).and_return([])
     lambda {Groc::Page.new("/some/path")}.should raise_exception(Groc::PathNotFound)
   end
   
