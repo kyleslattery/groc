@@ -29,3 +29,11 @@ module PageHelper
     File.stub!(:read).and_return("content")
   end
 end
+
+module AppHelper
+  include Rack::Test::Methods
+  
+  def app
+    @app ||= Sinatra::Application
+  end
+end
