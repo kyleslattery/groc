@@ -23,10 +23,10 @@ describe Groc::Page, ".new" do
     lambda {Groc::Page.new}.should raise_exception(ArgumentError)
   end
   
-  it "should Dir[] for lib/../source/path/**/*.md" do
+  it "should Dir[] for lib/../source/path.md" do
     File.stub!(:dirname).and_return("lib")
     
-    Dir.should_receive(:[]).with("lib/../source/some/path/**/*.md")
+    Dir.should_receive(:[]).with("lib/../source/some/path.md")
     Groc::Page.new("/some/path/")
   end
   

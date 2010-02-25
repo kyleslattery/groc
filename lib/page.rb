@@ -6,7 +6,7 @@ module Groc
     attr_reader :raw_body
     
     def initialize(path)
-      glob = File.join(File.dirname(__FILE__), "..", "/source/", path, "/**/*.md")
+      glob = File.join(File.dirname(__FILE__), "..", "/source/", path.gsub(/\/$/, '') + ".md")
       path = Dir[glob].first
       raise PathNotFound unless File.file?(path)
       
