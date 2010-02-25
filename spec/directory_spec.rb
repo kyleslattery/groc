@@ -10,6 +10,10 @@ describe Groc::Directory, "attributes" do
   it "should have a path" do
     @directory.path.should_not be_nil
   end
+  
+  it "should not allow path to be set" do
+    lambda {@directory.path = "asdf"}.should raise_exception(NameError)
+  end
 end
 
 describe Groc::Directory, ".new" do

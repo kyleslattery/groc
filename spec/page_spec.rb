@@ -14,6 +14,14 @@ describe Groc::Page, "attributes" do
   it "should not allow path to be set" do
     lambda {@page.path = "asdf"}.should raise_exception(NameError)
   end
+  
+  it "should have a raw_body" do
+    @page.raw_body.should_not be_nil
+  end
+  
+  it "should have a path" do
+    @page.path.should_not be_nil
+  end
 end
 
 describe Groc::Page, ".new" do
