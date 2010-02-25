@@ -3,12 +3,11 @@ require 'rdiscount'
 
 module Groc
   class Page
-    attr_reader :raw_body
+    attr_reader :raw_body, :path
     
     def initialize(path)
-      glob = File.join(File.dirname(__FILE__), "..", "/source/", path.gsub(/\/$/, '') + ".md")
-      path = Dir[glob].first
-      raise PathNotFound if path.nil? || !File.file?(path)
+      @path = File.join(File.dirname(__FILE__), "..", "/source/", path.gsub(/\/$/, '') + ".md")
+      raise PathNotFound unless File.file?(path)
       
       @raw_body = File.read(path)
     end

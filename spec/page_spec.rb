@@ -10,6 +10,10 @@ describe Groc::Page, "attributes" do
   it "should not allow raw_body to be set" do
     lambda {@page.raw_body = "asdf"}.should raise_exception(NameError)
   end
+  
+  it "should not allow path to be set" do
+    lambda {@page.path = "asdf"}.should raise_exception(NameError)
+  end
 end
 
 describe Groc::Page, ".new" do
@@ -22,26 +26,19 @@ describe Groc::Page, ".new" do
   it "should require a path" do
     lambda {Groc::Page.new}.should raise_exception(ArgumentError)
   end
-  
-  it "should Dir[] for lib/../source/path.md" do
-    File.stub!(:dirname).and_return("lib")
     
-    Dir.should_receive(:[]).with("lib/../source/some/path.md")
-    Groc::Page.new("/some/path/")
-  end
-  
-  it "should raise error if the path is not a file" do
-    File.stub!(:file?).and_return(false)
-    lambda {Groc::Page.new("/some/path")}.should raise_exception(Groc::PathNotFound)
-  end
-  
   it "should raise error if the path does not exist" do
-    Dir.stub!(:[]).and_return([])
+    File.stub!(:file?).and_return(false)
     lambda {Groc::Page.new("/some/path")}.should raise_exception(Groc::PathNotFound)
   end
   
   it "should read file and put content in variable" do
     Groc::Page.new("/some/path").raw_body.should == "content"
+  end
+  
+  it "should set path attr to the full path" do
+    File.stub!(:dirname).and_return("lib")
+    Groc::Page.new("/some/path").path.should == "lib/../source/some/path.md"
   end
   
   it "should prevent against ../ attacks"
@@ -71,4 +68,17 @@ describe Groc::Page, "#body" do
     @rdiscount_mock.should_not_receive(:to_html)
     @page.body
   end
+end
+
+describe Groc::Page, "#title" do
+  include PageHelper
+  
+  before(:each) do
+    @page = new_page_with_stubs
+    @page.stub!(:path)
+  end
+  
+  it "should call File.basedir with file name and suffix"# do
+    # File.should_receive(:basedir).with()
+  # end
 end
