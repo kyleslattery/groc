@@ -30,6 +30,18 @@ module PageHelper
   end
 end
 
+module DirectoryHelper
+  def new_directory_with_stubs
+    directory_stubs!
+    Groc::Directory.new("/some/path")
+  end
+  
+  def directory_stubs!
+    Dir.stub!(:[]).and_return(["asdf"])
+    File.stub!(:file?).and_return(false)
+  end
+end
+
 module AppHelper
   include Rack::Test::Methods
   

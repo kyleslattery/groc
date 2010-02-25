@@ -1,9 +1,10 @@
 require File.dirname(__FILE__) + '/spec_helper'
 
 describe Groc::Directory, ".new" do
+  include DirectoryHelper
+  
   before(:each) do
-    Dir.stub!(:[]).and_return(["asdf"])
-    File.stub!(:file?).and_return(false)
+    directory_stubs!
   end
   
   it "should require a path" do
@@ -25,5 +26,4 @@ describe Groc::Directory, ".new" do
     File.stub!(:file?).and_return(true)
     lambda {Groc::Directory.new("/some/path")}.should raise_exception(Groc::PathNotFound)
   end
-  
 end
